@@ -6,18 +6,18 @@ namespace learnllm.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-public class LlmController : ControllerBase
+public class ChatController : ControllerBase
 {
     private readonly ILlmService _llmService;
 
-    public LlmController(ILlmService llmService)
+    public ChatController(ILlmService llmService)
     {
         _llmService = llmService;
     }
 
     // GET
-    [HttpGet(Name = "/chat")]
-    public async Task<IActionResult> Chat()
+    [HttpGet(Name = "/")]
+    public async Task<IActionResult> Index()
     {
         var request = new ChatRequest
         {
