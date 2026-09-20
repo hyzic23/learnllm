@@ -1,9 +1,13 @@
+using learnllm.Config;
 using learnllm.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddScoped<ILlmService, LlmService>();
+
+builder.Services.Configure<LlmOptions>(
+    builder.Configuration.GetSection("LLM"));
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
