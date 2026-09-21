@@ -15,7 +15,7 @@ public class LlmService : ILlmService
 
     public async Task<ChatResponse> ChatAsync(ChatRequest request)
     {
-        Console.WriteLine($"Using model : {_llmOptions.Model}");
+        Console.WriteLine($"Using model : {_llmOptions.Model }");
         await Task.Delay(100);
         return new ChatResponse
         {
