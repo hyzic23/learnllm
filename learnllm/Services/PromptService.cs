@@ -16,4 +16,22 @@ public class PromptService : IPromptService
                $"- Example the code" +
                $"- Mention common mistakes.";
     }
+
+    public async Task<string> BuildCodeReviewPrompt(string code)
+    {
+        return $"You are a Senior .NET code reviewer." +
+               $"Review the following C# code " +
+               $"Look for :" +
+               $" 1.  Bugs" +
+               $" 2.  Security problems" +
+               $" 3.  Performance problems" +
+               $" 4.  Readability issues " +
+               $" 5.  .NET best practice violations " +
+               $"For each issue :" +
+               $"- Explain the problem" +
+               $"- Explain why it matters" +
+               $"- Suggest an improvement" +
+               $" Code :" +
+               $"{code}";
+    }
 }
