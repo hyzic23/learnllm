@@ -1,3 +1,4 @@
+using learnllm.Dtos;
 using learnllm.Services;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
@@ -9,7 +10,7 @@ namespace learnllm.Controllers;
 public class EmbeddingController : ControllerBase
 {
     private readonly IEmbeddingService embeddingService;
-    const string text = "Employees receive 15 vacation days every year.";
+    private const string Text = "Employees receive 15 vacation days every year.";
 
     public EmbeddingController(IEmbeddingService embeddingService)
     {
@@ -17,15 +18,11 @@ public class EmbeddingController : ControllerBase
     }
 
     // GET
-    [HttpGet("{embedding}")]
+    [HttpGet("embedding/{requestText}")]
     public async Task<IActionResult> Index(string requestText)
     {
-        requestText = text;
+        requestText = Text;
         var embedding = await embeddingService.CreateEmbeddingAsync(requestText);
-        return Ok(new
-        {
-            Text = requestText,
-            Embedding = embedding
-        });
+        return Ok(new LlmDto.EmbeddingResponse(requestText, embedding));
     }
 }
