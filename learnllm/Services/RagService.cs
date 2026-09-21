@@ -9,11 +9,15 @@ public class RagService : IRagService
 {
     private readonly IEmbeddingService _embeddingService;
     private readonly ILlmService  _llmService;
+    private readonly IDocumentRepository  _documentRepository;
 
-    public RagService(IEmbeddingService embeddingService, ILlmService llmService)
+    public RagService(IEmbeddingService embeddingService, 
+                      ILlmService llmService, 
+                      IDocumentRepository documentRepository)
     {
         _embeddingService = embeddingService;
         _llmService = llmService;
+        _documentRepository = documentRepository;
     }
 
     /// <summary>
@@ -30,28 +34,33 @@ public class RagService : IRagService
     /// <exception cref="NotImplementedException"></exception>
     public async Task<AskQuestionResponse> AskAsync(AskQuestionRequest request)
     {
-        // Step 1
-        var questionEmbedding = _embeddingService.CreateEmbeddingAsync(request.Question);
+        // Step 1 - Create Embeddings
+        var questionEmbedding = await _embeddingService.CreateEmbeddingAsync(request.Question);
         
-        // Step 2
-        // Search vector database
+        // Step 2 - Search vector database
+        var chunks = await _documentRepository.SearchAsync(questionEmbedding, 5);
         
-        // Step 3
-        // Get relevant document chunks
+        // Step 3 - Combine the chunks or Get relevant document chunks
+        var context = string.Join("\n\n", chunks.Select(x => x.Content));
         
-        // Step 4
-        // Build prompt
+        // Step 4 - Build prompt
+        var prompt = $"You are an employee HR assistant" +
+                     $"Answer the user's question using only provided company documentation" +
+                     $"If the answer cannot be found in the documentation, say you don't have enough information" +
+                     $"Documentation: " +
+                     $"{context}" +
+                     $"Question:" +
+                     $"{request.Question}";
         
-        // Step 5
-        // Send prompt to LLM
-
+        // Step 5 - Send prompt to LLM or Ask the LLM
+        var response = await _llmService.ChatAsync(
+            new ChatRequest{Message = prompt});
+        
+        //Step 6 - Return the answer
         return new AskQuestionResponse
         {
-            Answer = "Employee receive 15 vacation days every year",
-            Sources = 
-            [
-                "Employee Handbook"
-            ]
+            Answer = response.Message,
+            Sources = chunks.Select(x => $"{x.Source} - Page {x.PageNumber}").ToList()
         };
     }
 }

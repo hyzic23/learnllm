@@ -8,7 +8,7 @@ public class DocumentChunk
     public float[] Embeddings { get; set; } = [];
     public int ChunkIndex { get; set; }
     public string? Source { get; set; }
-    public string? PageNumber { get; set; }
+    public int? PageNumber { get; set; }
 }
 
 //DocumentId: 15

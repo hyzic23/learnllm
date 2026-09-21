@@ -14,8 +14,8 @@ public interface IDocumentRepository
     /// <summary>
     /// Finds similar Documents
     /// </summary>
-    /// <param name="embeddings"></param>
+    /// <param name="embedding"></param>
     /// <param name="limit"></param>
     /// <returns></returns>
-    Task<List<Document>>  SearchAsync(float[] embeddings, int limit);
+    Task<List<DocumentChunk>>  SearchAsync(float[] embedding, int limit);
 }
