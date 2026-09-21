@@ -6,6 +6,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddScoped<ILlmService, LlmService>();
 builder.Services.AddScoped<IPromptService, PromptService>();
+builder.Services.AddScoped<IEmbeddingService, EmbeddingService>();
 
 builder.Services.Configure<LlmOptions>(
     builder.Configuration.GetSection("LLM"));
