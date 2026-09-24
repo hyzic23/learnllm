@@ -13,10 +13,12 @@ namespace learnllm.Services;
 public class DocumentRepository : IDocumentRepository
 {
     private readonly string _connectionString;
+    private readonly NpgsqlDataSource _dataSource;
 
-    public DocumentRepository(string connectionString)
+    public DocumentRepository(string connectionString, NpgsqlDataSource dataSource)
     {
         _connectionString = connectionString;
+        _dataSource = dataSource;
     }
 
     public async Task<int> AddDocumentAsync(Document document)
@@ -26,8 +28,7 @@ public class DocumentRepository : IDocumentRepository
                              "VALUES (@name, @created_at)" +
                              "Returning id;" +
                              "";
-        await using var connection = new NpgsqlConnection(_connectionString);
-        await connection.OpenAsync();
+        await using var connection = await _dataSource.OpenConnectionAsync();
         await using var command = new NpgsqlCommand(query, connection);
         command.Parameters.AddWithValue("fileName", document.FileName);
         command.Parameters.AddWithValue("createdAt", document.CreatedAt);
@@ -58,7 +59,7 @@ public class DocumentRepository : IDocumentRepository
                            )
                            RETURNING id;
                            """;
-        await using var connection = new NpgsqlConnection(_connectionString);
+        await using var connection = await _dataSource.OpenConnectionAsync();
         await connection.OpenAsync();
 
         await using var command = new NpgsqlCommand(sql, connection);
@@ -110,7 +111,7 @@ public class DocumentRepository : IDocumentRepository
                            """;
         var chunks = new List<DocumentChunk>();
 
-        await using var connection = new NpgsqlConnection(_connectionString);
+        await using var connection = await _dataSource.OpenConnectionAsync();
         await connection.OpenAsync();
         await using var command = new NpgsqlCommand(sql, connection);
 
