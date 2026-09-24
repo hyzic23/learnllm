@@ -95,19 +95,6 @@ public class DocumentRepository : IDocumentRepository
     public async Task<List<DocumentChunk>> SearchAsync(float[] embedding, int limit)
     {
         var results = new List<DocumentChunk>();
-        // await using var command = _dataSource.CreateCommand("""
-        //                                                     SELECT
-        //                                                         id,
-        //                                                         document_id,
-        //                                                         content,
-        //                                                         chunk_index,
-        //                                                         source,
-        //                                                         page_number
-        //                                                     FROM document_chunks
-        //                                                     ORDER BY embedding <=> $1
-        //                                                     LIMIT $2
-        //                                                     """);
-        
         const string sql = """
                            SELECT
                                id,
