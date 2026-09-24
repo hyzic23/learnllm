@@ -1,11 +1,27 @@
+using learnllm.Config;
+using Microsoft.Extensions.Options;
+using OpenAI.Embeddings;
+
 namespace learnllm.Services;
 
 public class EmbeddingService : IEmbeddingService
 {
-    private readonly float[] _fakeEmbeddings = [0.12f, -0.45f, 0.88f, 0.31f];
+    private readonly EmbeddingClient _embeddingClient;
+
+    public EmbeddingService(IOptions<OpenAIOptions> options)
+    {
+        var settings = options.Value;
+        _embeddingClient = new EmbeddingClient(
+                                                settings.EmbeddingModel,
+                                                settings.ApiKey);
+    }
+
     public async Task<float[]> CreateEmbeddingAsync(string text)
     {
-        await Task.Delay(100);
-        return _fakeEmbeddings;
+        var embedding = await _embeddingClient
+                                                            .GenerateEmbeddingAsync(text);
+        return embedding.Value
+                        .ToFloats()
+                        .ToArray();
     }
 }

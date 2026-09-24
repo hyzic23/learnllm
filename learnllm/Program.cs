@@ -19,6 +19,8 @@ builder.Services.AddSingleton(dataSource);
 
 builder.Services.Configure<LlmOptions>(
     builder.Configuration.GetSection("LLM"));
+builder.Services.Configure<OpenAIOptions>(
+    builder.Configuration.GetSection("OpenAI"));
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
