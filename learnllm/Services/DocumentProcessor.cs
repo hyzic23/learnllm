@@ -16,7 +16,9 @@ public class DocumentProcessor : IDocumentProcessor
     private readonly IEmbeddingService _embeddingService;
     private readonly IDocumentRepository  _documentRepository;
     
-    public DocumentProcessor(TextChunker textChunker, IEmbeddingService embeddingService, IDocumentRepository documentRepository)
+    public DocumentProcessor(TextChunker textChunker, 
+                             IEmbeddingService embeddingService, 
+                             IDocumentRepository documentRepository)
     {
         _textChunker = textChunker;
         _embeddingService = embeddingService;

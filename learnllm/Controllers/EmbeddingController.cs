@@ -21,7 +21,9 @@ public class EmbeddingController : ControllerBase
     public async Task<IActionResult> Index(string requestText)
     {
         requestText = Text;
-        var embedding = await embeddingService.CreateEmbeddingAsync(requestText);
-        return Ok(new LlmDto.EmbeddingResponse(requestText, embedding));
+        var embedding = await embeddingService
+                                    .CreateEmbeddingAsync(requestText);
+        return Ok(new 
+            LlmDto.EmbeddingResponse(requestText, embedding));
     }
 }
