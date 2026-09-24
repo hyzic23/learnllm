@@ -10,7 +10,9 @@ dataSourceBuilder.UseVector();  // This allows Npgsql/pgvector integration to un
 var dataSource = dataSourceBuilder.Build();
 
 // Add services to the container.
+#pragma warning disable OPENAI001
 builder.Services.AddScoped<ILlmService, LlmService>();
+#pragma warning restore OPENAI001
 builder.Services.AddScoped<IPromptService, PromptService>();
 builder.Services.AddScoped<IEmbeddingService, EmbeddingService>();
 builder.Services.AddScoped<IDocumentRepository, DocumentRepository>();
