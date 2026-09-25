@@ -36,10 +36,10 @@ public class RagService : IRagService
         // Step 1 - Create Embeddings : Convert question into embedding
         var questionEmbedding = await _embeddingService.CreateEmbeddingAsync(request.Question);
         
-        // Step 2 - Search vector database : PostgreSQL
+        // Step 2 - Search vector database for similar chunks: PostgreSQL
         var chunks = await _documentRepository.SearchAsync(questionEmbedding, 5);
         
-        // Step 3 - Combine the chunks or Get relevant document chunks
+        // Step 3 - Combine the retrieved chunks or Get relevant document chunks
         var context = string.Join("\n\n", chunks.Select(x => x.Content));
         
         // Step 4 - Build prompt
