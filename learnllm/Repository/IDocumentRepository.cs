@@ -1,6 +1,6 @@
 using learnllm.Models;
 
-namespace learnllm.Services;
+namespace learnllm.Repository;
 
 /// <summary>
 /// This IDocumentRepository has three responsibilities

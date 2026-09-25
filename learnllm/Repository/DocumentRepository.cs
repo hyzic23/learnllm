@@ -2,7 +2,7 @@ using learnllm.Models;
 using Npgsql;
 using Pgvector;
 
-namespace learnllm.Services;
+namespace learnllm.Repository;
 
 /// <summary>
 /// This DocumentRepository has three responsibilities

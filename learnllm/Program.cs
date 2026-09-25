@@ -1,4 +1,5 @@
 using learnllm.Config;
+using learnllm.Repository;
 using learnllm.Services;
 using Npgsql;
 

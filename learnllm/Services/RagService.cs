@@ -1,4 +1,5 @@
 using learnllm.Models;
+using learnllm.Repository;
 
 namespace learnllm.Services;
 
