@@ -30,14 +30,13 @@ public class RagService : IRagService
     /// 6. Return Answer
     /// </summary>
     /// <param name="request"></param>
-    /// <returns></returns>
-    /// <exception cref="NotImplementedException"></exception>
+    /// <returns>AskQuestionResponse</returns>
     public async Task<AskQuestionResponse> AskAsync(AskQuestionRequest request)
     {
-        // Step 1 - Create Embeddings
+        // Step 1 - Create Embeddings : Convert question into embedding
         var questionEmbedding = await _embeddingService.CreateEmbeddingAsync(request.Question);
         
-        // Step 2 - Search vector database
+        // Step 2 - Search vector database : PostgreSQL
         var chunks = await _documentRepository.SearchAsync(questionEmbedding, 5);
         
         // Step 3 - Combine the chunks or Get relevant document chunks
